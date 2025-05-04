@@ -5,6 +5,7 @@ import { Label } from "../form/Label";
 import { Select } from "../form/Select";
 import MultiSelect from "../form/MultiSelect";
 import { HelperText } from "../form/HelperText";
+import { InputPassword } from "../form/InputPassword";
 
 const options = [
   { value: "financial", label: "Financial Support" },
@@ -21,6 +22,7 @@ const TaskForm = () => {
     project: "",
     priority: "",
     description: "",
+    password: "",
   });
 
   const [selectedMultiOptions, setSelectedMultiOptions] = useState([]);
@@ -42,7 +44,7 @@ const TaskForm = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow-md">
+    <div className="max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow-md mt-6">
       <FormHeader
         title="Task Name"
         onAddSubtask={handleAddSubtask}
@@ -107,6 +109,15 @@ const TaskForm = () => {
         <HelperText>This is a hint text to help user.</HelperText>
       </div>
 
+      <div style={{ width: "420px" }}>
+        <Label htmlFor="password" required>Password</Label>
+        <InputPassword
+          id="password"
+          name="password"
+          onChange={handleChange}
+        />
+        <HelperText>Add your password for verification.</HelperText>
+      </div>
       </form>
     </div>
   );
