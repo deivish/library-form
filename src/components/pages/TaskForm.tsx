@@ -4,6 +4,7 @@ import { Input } from "../form/Input";
 import { Label } from "../form/Label";
 import { Select } from "../form/Select";
 import MultiSelect from "../form/MultiSelect";
+import { HelperText } from "../form/HelperText";
 
 const options = [
   { value: "financial", label: "Financial Support" },
@@ -93,6 +94,19 @@ const TaskForm = () => {
       </div> 
 
       </div>
+
+      <div className="mt-4">
+        <Label htmlFor="description">Description</Label>
+        <textarea
+          id="description"
+          name="description"
+          placeholder="Add your description..."
+          onChange={handleChange}
+          className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 pb-20 focus:ring-2 focus:ring-blue-500"
+        ></textarea>
+        <HelperText>This is a hint text to help user.</HelperText>
+      </div>
+
       </form>
     </div>
   );
