@@ -44,6 +44,17 @@ const TaskForm = () => {
         <Label htmlFor="assignTo">Assign To</Label>
         <Input id="assignTo" name="assignTo" value={formData.assignee} onChange={handleChange} />
       </div>
+
+      <div>
+        <Label htmlFor="startDate">Start Date</Label>
+        <Input id="startDate" name="startDate" type="date" onChange={handleChange} />
+      </div>
+
+      <div>
+        <Label htmlFor="dueDate">Due Date</Label>
+        <Input id="dueDate" name="dueDate" type="date" onChange={handleChange} />
+      </div>
+      
       </div>
       </form>
     </div>
