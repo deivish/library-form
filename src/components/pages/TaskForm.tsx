@@ -2,6 +2,13 @@ import { useState } from "react";
 import FormHeader from "../form/FormHeader";
 import { Input } from "../form/Input";
 import { Label } from "../form/Label";
+import { Select } from "../form/Select";
+import MultiSelect from "../form/MultiSelect";
+
+const options = [
+  { value: "financial", label: "Financial Support" },
+  { value: "review", label: "Waiting for Review" },
+];
 
 const TaskForm = () => {
 
@@ -15,6 +22,8 @@ const TaskForm = () => {
     description: "",
   });
 
+  const [selectedMultiOptions, setSelectedMultiOptions] = useState([]);
+
   const handleAddSubtask = () => {
     console.log("Subtask added");
   };
@@ -26,6 +35,11 @@ const TaskForm = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
+  const handleMultiSelectChange = (newValue: any) => {
+    setSelectedMultiOptions(newValue);
+  };
+
   return (
     <div className="max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow-md">
       <FormHeader
@@ -54,7 +68,30 @@ const TaskForm = () => {
         <Label htmlFor="dueDate">Due Date</Label>
         <Input id="dueDate" name="dueDate" type="date" onChange={handleChange} />
       </div>
-      
+
+      <div >
+        <label htmlFor="multiSelect" className="block text-sm font-medium text-gray-700 mb-1">Project</label>
+        <MultiSelect
+          options={options}
+          value={selectedMultiOptions}
+          onChange={handleMultiSelectChange}
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="priority">Priority</Label>
+        <Select
+          id="priority"
+          name="priority"
+          onChange={handleChange}
+          options={[
+            { value: "low", label: "Low" },
+            { value: "medium", label: "Medium" },
+            { value: "high", label: "High" },
+          ]}
+        />
+      </div> 
+
       </div>
       </form>
     </div>
