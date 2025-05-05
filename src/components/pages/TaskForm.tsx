@@ -121,6 +121,7 @@ const TaskForm = () => {
         onAddSubtask={handleAddSubtask}
         onSave={handleSave}
       />
+      <hr className="border-t border-gray-200 my-2 pb-2" />
       <form onSubmit={(e) => { e.preventDefault(); validateForm(); }}>
         <div className="grid grid-cols-2 gap-4">
           <div>
