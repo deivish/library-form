@@ -12,6 +12,7 @@ export const HelperText = ({ id, children, state = "default" }: Props) => (
     className={
       state === "error" ? "text-red-500 text-sm" : "text-gray-500 text-sm"
     }
+    aria-live={state === "error" ? "assertive" : "polite"}
   >
     {children}
   </p>

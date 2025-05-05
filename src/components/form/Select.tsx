@@ -10,11 +10,13 @@ type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
 };
 
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({ options, className, ...props }, ref) => {
+  ({ options, className, required, ...props }, ref) => {
     return (
       <select
         {...props}
         ref={ref}
+        required={required}
+        aria-required={required}
         className={`w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
       >
         <option value="">-- Select --</option>

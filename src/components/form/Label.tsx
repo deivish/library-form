@@ -8,6 +8,7 @@ type LabelProps = {
 
 export const Label = ({ htmlFor, children, required }: LabelProps) => (
   <label htmlFor={htmlFor} className="block text-sm font-medium text-gray-700">
-    {children} {required}
+    {children}
+    {required && <span className="text-red-500 ml-1"></span>}
   </label>
 );
