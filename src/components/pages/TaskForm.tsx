@@ -217,6 +217,7 @@ const TaskForm = () => {
           <InputPassword
             id="password"
             name="password"
+            value={formData.password}
             onChange={handleChange}
             aria-describedby="password-helper"
           />
