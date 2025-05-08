@@ -6,14 +6,14 @@ import { Select } from "../form/Select";
 import MultiSelect from "../form/MultiSelect";
 import { HelperText } from "../form/HelperText";
 import { InputPassword } from "../form/InputPassword";
-import { MultiValue } from "react-select";  // Importar el tipo necesario de react-select
+import { MultiValue } from "react-select";  // Import the required react-select type
 
 const options = [
   { value: "financial", label: "Financial Support" },
   { value: "review", label: "Waiting for Review" },
 ];
 
-type Option = { value: string; label: string };  // Tipo para las opciones de MultiSelect
+type Option = { value: string; label: string };  // Type for MultiSelect options
 
 type FormData = {
   assignee: string;
@@ -24,7 +24,7 @@ type FormData = {
   priority: string;
   description: string;
   password: string;
-  [key: string]: string;  // Permite acceder dinámicamente a las propiedades
+  [key: string]: string;  // Allows dynamic access to properties
 };
 
 const TaskForm = () => {
@@ -40,7 +40,7 @@ const TaskForm = () => {
     password: "",
   });
 
-  const [selectedMultiOptions, setSelectedMultiOptions] = useState<MultiValue<Option>>([]); // Ajuste aquí
+  const [selectedMultiOptions, setSelectedMultiOptions] = useState<MultiValue<Option>>([]); 
 
   const [errors, setErrors] = useState<{
     assignee: string;
@@ -51,7 +51,7 @@ const TaskForm = () => {
     dueDate: string;
     project: string;
     priority: string;
-    [key: string]: string;  // Añadido índice dinámico para errores
+    [key: string]: string;  // Added dynamic index for errors
   }>({
     assignee: "",
     assignTo: "",
@@ -68,7 +68,7 @@ const TaskForm = () => {
   };
 
   const handleSave = () => {
-    validateForm(); 
+    validateForm();
     console.log("Form saved");
   };
 
@@ -81,7 +81,7 @@ const TaskForm = () => {
     }
   };
 
-  const handleMultiSelectChange = (newValue: MultiValue<Option>) => {  
+  const handleMultiSelectChange = (newValue: MultiValue<Option>) => {
     setSelectedMultiOptions(newValue);
 
     if (errors.project && newValue.length > 0) {
@@ -138,22 +138,22 @@ const TaskForm = () => {
 
           <div>
             <Label htmlFor="startDate">Start Date</Label>
-            <Input id="startDate" name="startDate" type="date" onChange={handleChange} value={formData.startDate} aria-describedby="startDate-helper"/>
+            <Input id="startDate" name="startDate" type="date" onChange={handleChange} value={formData.startDate} aria-describedby="startDate-helper" />
             {errors.startDate && (
-            <HelperText id="startDate-helper" state="error">
-              {errors.startDate}
-            </HelperText>
-  )}
+              <HelperText id="startDate-helper" state="error">
+                {errors.startDate}
+              </HelperText>
+            )}
           </div>
 
           <div>
             <Label htmlFor="dueDate">Due Date</Label>
             <Input id="dueDate" name="dueDate" type="date" onChange={handleChange} value={formData.dueDate} aria-describedby="dueDate-helper" />
             {errors.dueDate && (
-            <HelperText id="dueDate-helper" state="error">
-              {errors.dueDate}
-            </HelperText>
-  )}
+              <HelperText id="dueDate-helper" state="error">
+                {errors.dueDate}
+              </HelperText>
+            )}
           </div>
 
           <div>
@@ -167,10 +167,10 @@ const TaskForm = () => {
               aria-describedby="project-helper"
             />
             {errors.project && (
-            <HelperText id="project-helper" state="error">
-              {errors.project}
-            </HelperText>
-  )}
+              <HelperText id="project-helper" state="error">
+                {errors.project}
+              </HelperText>
+            )}
           </div>
 
           <div>
@@ -188,10 +188,10 @@ const TaskForm = () => {
               aria-describedby="priority-helper"
             />
             {errors.priority && (
-            <HelperText id="priority-helper" state="error">
-              {errors.priority}
-            </HelperText>
-  )}
+              <HelperText id="priority-helper" state="error">
+                {errors.priority}
+              </HelperText>
+            )}
           </div>
         </div>
 
@@ -203,11 +203,11 @@ const TaskForm = () => {
             placeholder="Add your description..."
             value={formData.description}
             onChange={handleChange}
-            className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 pb-20 focus:ring-2 focus:ring-blue-500"
+            className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 pb-20 focus:ring-2 focus:ring-blue-500 hover:border-2 hover:border-blue-500"
             aria-describedby="description-helper"
           ></textarea>
           {errors.description && (
-          <HelperText id="description-helper" state="error">{errors.description}</HelperText>
+            <HelperText id="description-helper" state="error">{errors.description}</HelperText>
           )}
           <HelperText>This is a hint text to help user.</HelperText>
         </div>
