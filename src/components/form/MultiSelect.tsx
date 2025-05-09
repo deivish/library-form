@@ -1,5 +1,4 @@
-import React from "react";
-import Select, { MultiValue, ActionMeta } from "react-select";
+import React, { useEffect, useRef, useState } from "react";
 
 type Option = {
   value: string;
@@ -8,85 +7,92 @@ type Option = {
 
 type MultiSelectProps = {
   options: Option[];
-  onChange: (newValue: MultiValue<Option>, actionMeta: ActionMeta<Option>) => void;
-  value: MultiValue<Option>;
-  id?: string;
-  label?: string;
-  required?: boolean;
+  selected: Option[];
+  onChange: (selected: Option[]) => void;
 };
 
-const MultiSelect: React.FC<MultiSelectProps> = ({
+export const MultiSelect: React.FC<MultiSelectProps> = ({
   options,
+  selected,
   onChange,
-  value,
-  id,
-  label,
-  required,
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  // Detectar clics fuera del componente
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const toggleOption = (option: Option) => {
+    if (selected.some((s) => s.value === option.value)) {
+      onChange(selected.filter((s) => s.value !== option.value));
+    } else {
+      onChange([...selected, option]);
+    }
+  };
+
+  const removeOption = (value: string) => {
+    onChange(selected.filter((s) => s.value !== value));
+  };
+
   return (
-    <>
-      {label && (
-        <label htmlFor={id} className="block mb-1 text-sm font-medium">
-          {label} {required && <span className="text-red-500">*</span>}
-        </label>
+    <div className="w-full relative" ref={wrapperRef}>
+      <div
+        onClick={() => setIsOpen(!isOpen)}
+        className="border border-gray-300 rounded-lg px-2 py-2 min-h-[42px] flex flex-wrap gap-2 items-center cursor-pointer focus:ring-2 focus:ring-blue-500 hover:border-2 hover:border-blue-500"
+      >
+        {selected.map((opt) => (
+          <div
+            key={opt.value}
+            className="bg-gray-100 text-sm px-2 py-1 rounded flex items-center"
+          >
+            {opt.label}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                removeOption(opt.value);
+              }}
+              className="ml-1 text-gray-500 hover:text-red-500 "
+            >
+              ×
+            </button>
+          </div>
+        ))}
+        <span className="text-gray-400 text-sm">
+          {selected.length === 0 && "Select options..."}
+        </span>
+      </div>
+
+      {isOpen && (
+        <div className="mt-1 border border-gray-300 rounded-lg max-h-40 overflow-y-auto bg-white z-10 shadow absolute">
+          {options.map((opt) => (
+            <div
+              key={opt.value}
+              onClick={() => toggleOption(opt)}
+              className={`px-4 py-2 cursor-pointer hover:bg-blue-100 ${
+                selected.some((s) => s.value === opt.value)
+                  ? "bg-blue-50"
+                  : ""
+              }`}
+            >
+              {opt.label}
+            </div>
+          ))}
+        </div>
       )}
-      <Select
-        inputId={id}
-        isMulti
-        options={options}
-        onChange={onChange}
-        value={value}
-        aria-label={label}
-        aria-required={required}
-        classNamePrefix="react-select"
-        styles={{
-          control: (provided) => ({
-            ...provided,
-            minHeight: "auto",
-            height: "38px",
-            borderRadius: "0.5rem",
-            borderColor: "#D1D5DB",
-            border: "1px solid #D1D5DB",
-            boxShadow: "none",
-            fontFamily: "inherit",
-            padding: "0",
-            lineHeight: "inherit",
-            "&:hover": {
-              border: "2px solid #3B82F6",
-            },
-          }),
-          valueContainer: (provided: any) => ({
-            ...provided,
-            padding: "0",
-          }),
-          input: (provided: any) => ({
-            ...provided,
-            margin: "0",
-            padding: "0",
-            fontSize: "1rem",
-            lineHeight: "inherit",
-          }),
-          multiValue: (provided) => ({
-            ...provided,
-            color: "white",
-            backgroundColor: "#F4F6F8",
-          }),
-          multiValueLabel: (provided) => ({
-            ...provided,
-            color: "black",
-          }),
-          multiValueRemove: (provided) => ({
-            ...provided,
-            color: "black",
-            ":hover": {
-              backgroundColor: "#EF4444",
-              color: "white",
-            },
-          }),
-        }}
-      />
-    </>
+    </div>
   );
 };
-
-export default MultiSelect;
